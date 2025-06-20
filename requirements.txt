@@ -7,3 +7,5 @@ opencv-python
 numpy
 ai-edge-torch
 scikit-learn
+tensorflow<2.16
+protobuf<4
