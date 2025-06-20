@@ -7,6 +7,6 @@ opencv-python
 numpy
 scikit-learn
 ai-edge-torch==0.5.0
-tf-nightly=2.20.0.dev20250619
+tf-nightly==2.20.0.dev20250619
 tensorflow<2.16
 protobuf<4
