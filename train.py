@@ -117,7 +117,7 @@ bce_loss = nn.BCEWithLogitsLoss()
 def loss_fn(pred, target):
     return dice_loss(pred, target) + bce_loss(pred, target)
 
-def evaluate_encoder(encoder_name, model_save_path="tmp.pth", device=torch.device('cpu')):
+def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
     model = smp.Unet(
         encoder_name=encoder_name,
         encoder_weights="imagenet",
@@ -154,7 +154,7 @@ def evaluate_encoder(encoder_name, model_save_path="tmp.pth", device=torch.devic
         pred_flat = np.concatenate(all_preds).astype(np.uint8).ravel()
         target_flat = np.concatenate(all_targets).astype(np.uint8).ravel()
         dice = f1_score(target_flat, pred_flat)
-        print(f"- Epoch {epoch + 1}/{nb_epochs}: dice={dice:.4f}")
+        print(f"- Epoch {epoch + 1}/{nb_epochs}: train_loss={loss.item():.4f} dice={dice:.4f}")
 
         if dice > best_dice:
             best_dice = dice
