@@ -226,4 +226,4 @@ edge_model_quantized = ai_edge_torch.convert(
   quant_config=quant_config
 )
 edge_model_quantized.export(TFLITE_MODEL_FILE_PATH)
-print(f"Wrote {TFLITE_MODEL_FILE_PATH}")
+print(f"Wrote TFLite model: {TFLITE_MODEL_FILE_PATH}")
