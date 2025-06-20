@@ -5,7 +5,7 @@ timm
 albumentations
 opencv-python
 numpy
-ai-edge-torch
 scikit-learn
+ai-edge-torch==0.1.11
 tensorflow<2.16
 protobuf<4
