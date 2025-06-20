@@ -1,0 +1,9 @@
+torch>=2.0
+torchvision
+segmentation-models-pytorch
+timm
+albumentations
+opencv-python
+numpy
+ai-edge-torch
+scikit-learn

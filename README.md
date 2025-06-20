@@ -15,33 +15,34 @@ It is optimized for conversion to TFLite and intended for integration into ethic
 - Small model size for fast inference on mobile
 - High segmentation accuracy (Dice score > 0.94 on validation set)
 - Supports quantization for optimized deployment
-- Compatible with LiteRT and on-device ML pipelines
-
-## Repository structure
+- Compatible with LiteRT
 
 ## Dataset
 
-The dataset consists of annotated document images (segmentation masks).
+The dataset can be found in a separate repository:
+[document-segmentation-dataset](https://github.com/pynicolas/document-segmentation-dataset/).
+It's automatically downloaded in the training script.
 
 ## Training
+```
+# 1. Clone the repository
+git clone https://github.com/pynicolas/document-segmentation-model
+cd document-segmentation-model
+
+# 2. Create a venv
+python3 -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate.bat on Windows
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Run the training script
+python train.py
+```
 
 ## Requirements
 
-See requirements.txt for details.
-
-## Conversion to TFLite
-
-Model conversion uses ai-edge-torch:
-```
-import ai_edge_torch
-from ai_edge_torch.generative.quantize import quant_recipes
-
-model.eval()
-sample_args = (torch.randn(1, 3, 256, 256),)
-quant_config = quant_recipes.full_int8_dynamic_recipe()
-edge_model = ai_edge_torch.convert(model, sample_args, quant_config=quant_config)
-edge_model.export("exports/document_model.tflite")
-```
+See [requirements.txt](requirements.txt) for details.
 
 ## License
 
