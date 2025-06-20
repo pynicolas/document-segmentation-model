@@ -16,6 +16,7 @@ It is optimized for conversion to TFLite and intended for integration into ethic
 - High segmentation accuracy (Dice score > 0.94 on validation set)
 - Supports quantization for optimized deployment
 - Compatible with LiteRT
+- Easily reproducible training: run training with a single command
 
 ## Dataset
 
