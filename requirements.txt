@@ -5,5 +5,5 @@ timm
 albumentations
 opencv-python
 numpy
-ai-edge-torch
 scikit-learn
+ai-edge-torch-nightly==0.6.0.dev20250620
