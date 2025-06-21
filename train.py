@@ -43,6 +43,7 @@ if os.path.isdir(BUILD_DIR):
     shutil.rmtree(BUILD_DIR)
 os.makedirs(BUILD_DIR, exist_ok=True)
 os.makedirs(MODEL_DIR, exist_ok=True)
+shutil.copy("LICENSE", MODEL_DIR + "/LICENSE.txt")
 
 # Dataset
 
