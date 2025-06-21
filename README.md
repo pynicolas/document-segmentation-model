@@ -58,3 +58,18 @@ This project is part of a broader effort to provide ethical alternatives in mobi
  - Fully open source model and training pipeline
  - No user tracking, no advertising
 
+## Acknowledgements
+
+This project builds on the work of several excellent open-source projects:
+
+- [PyTorch](https://pytorch.org/) — Deep learning framework (BSD-3-Clause)
+- [Albumentations](https://github.com/albumentations-team/albumentations) — Image augmentation library (MIT)
+- [segmentation-models-pytorch](https://github.com/qubvel/segmentation_models.pytorch) — High-level segmentation models including U-Net (MIT)
+- [timm](https://github.com/huggingface/pytorch-image-models) — Collection of image models including EfficientNet (Apache-2.0)
+- [OpenCV](https://opencv.org/) — Image processing library (Apache-2.0)
+- [scikit-learn](https://scikit-learn.org/) — Machine learning utilities (BSD-3-Clause)
+- [ai-edge-torch](https://github.com/google-research/ai-edge) — Model quantization and export to TFLite (Apache-2.0)
+
+We gratefully acknowledge the work of the authors and communities behind these libraries.
+
+
