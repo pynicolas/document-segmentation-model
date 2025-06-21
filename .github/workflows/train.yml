@@ -53,3 +53,4 @@ jobs:
           files: |
             build/model/document-segmentation-model.pt
             build/model/document-segmentation-model.tflite
+            build/model/LICENSE.txt
