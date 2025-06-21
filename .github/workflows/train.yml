@@ -1,7 +1,11 @@
-name: Train and Export Model
+name: Train and (maybe) Release Model
 
 on:
   push:
+    # When a tag is pushed (ex: v1.0.0), trigger a release
+    tags:
+      - 'v*'
+    # When some files are modified, trigger only a training
     paths:
       - train.py
       - requirements.txt
@@ -9,12 +13,15 @@ on:
 jobs:
   train:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+
       - name: Cache Python dependencies
         uses: actions/cache@v4
         with:
@@ -22,9 +29,24 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Run training script
+
+      - name: Train and export model
         run: python train.py
+
+      - name: Check if this is a release
+        id: release_check
+        run: |
+          echo "release=${{ startsWith(github.ref, 'refs/tags/') }}" >> $GITHUB_OUTPUT
+
+      - name: Upload release assets
+        if: steps.release_check.outputs.release == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            build/model/document-segmentation-model.pth
+            build/model/document-segmentation-model.tflite
