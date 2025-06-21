@@ -10,6 +10,9 @@ on:
       - train.py
       - requirements.txt
 
+permissions:
+  contents: write
+
 jobs:
   train:
     runs-on: ubuntu-latest
