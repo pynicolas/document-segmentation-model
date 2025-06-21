@@ -48,5 +48,5 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            build/model/document-segmentation-model.pth
+            build/model/document-segmentation-model.pt
             build/model/document-segmentation-model.tflite
