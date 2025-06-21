@@ -33,7 +33,7 @@ DATASET_ZIP_URL = 'https://github.com/pynicolas/document-segmentation-dataset/re
 
 BUILD_DIR = "build"
 MODEL_DIR = BUILD_DIR + "/model"
-MODEL_FILE_PATH = MODEL_DIR + "/document-segmentation-model.pth"
+MODEL_FILE_PATH = MODEL_DIR + "/document-segmentation-model.pt"
 TFLITE_MODEL_FILE_PATH = MODEL_DIR + "/document-segmentation-model.tflite"
 DATASET_ZIP_PATH = BUILD_DIR + "/dataset.zip"
 DATASET_PARENT_DIR = BUILD_DIR + "/dataset"
