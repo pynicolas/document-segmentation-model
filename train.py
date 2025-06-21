@@ -215,16 +215,51 @@ model = smp.Unet(
 model.load_state_dict(torch.load(MODEL_FILE_PATH, map_location="cpu"))
 model.eval()
 
-sample_inputs = next(iter(train_loader))[0]
-sample_inputs = sample_inputs[:1]
-sample_inputs = sample_inputs.to(torch.float32)
-sample_args = (sample_inputs,)
+class NHWCWrapper(torch.nn.Module):
+    def __init__(self, model: torch.nn.Module):
+        super().__init__()
+        self.model = model
 
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # Input: (N, H, W, C) → PyTorch → (N, C, H, W)
+        x = x.permute(0, 3, 1, 2)
+        x = self.model(x)
+
+        # (N, C, H, W) → (N, H, W, C)
+        if x.ndim == 4:
+            x = x.permute(0, 2, 3, 1)
+        return x
+wrapped_model = NHWCWrapper(model)
+wrapped_model.eval()
+
+# 1. sample_args to trace graph
+sample_input = torch.randn(1, 256, 256, 3)  # NHWC
+sample_args = (sample_input,)
+
+# 2. representative_dataset to calibrate quantization
+quantization_dataset = DocumentSegmentationDataset(
+    image_dir=os.path.join(DATASET_DIR, "val/images"),
+    mask_dir=os.path.join(DATASET_DIR, "val/masks"),
+    transform=shared_transform
+)
+quantization_loader = DataLoader(quantization_dataset, batch_size=4, shuffle=False)
+def representative_dataset():
+    for images, _ in quantization_loader:
+        for i in range(images.size(0)):
+            img = images[i].permute(1, 2, 0).unsqueeze(0)  # C,H,W → H,W,C → NHWC
+            img = img.to(torch.float32)
+            yield (img,)
+
+# 3. quant_config
 quant_config = quant_recipes.full_int8_dynamic_recipe()
+
+# 4. Conversion
 edge_model_quantized = ai_edge_torch.convert(
-  model,
-  sample_args,
-  quant_config=quant_config
+    wrapped_model,
+    sample_args=sample_args,
+    sample_kwargs=None,
+    quant_config=quant_config,
+    _ai_edge_converter_flags={"representative_dataset": representative_dataset}
 )
 edge_model_quantized.export(TFLITE_MODEL_FILE_PATH)
 print(f"Wrote TFLite model: {TFLITE_MODEL_FILE_PATH}")
