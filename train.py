@@ -119,7 +119,7 @@ def loss_fn(pred, target):
     return dice_loss(pred, target) + bce_loss(pred, target)
 
 def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
-    model = smp.Unet(
+    model = smp.DeepLabV3Plus(
         encoder_name=encoder_name,
         encoder_weights="imagenet",
         in_channels=3,
@@ -189,7 +189,7 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-encoder = "timm-tf_efficientnet_lite0"
+encoder = "mobilenet_v2"
 # Other possible encoders:
 # "timm-tf_efficientnet_lite1"
 # "timm-efficientnet-b0"
@@ -209,8 +209,8 @@ with open(os.path.join(MODEL_DIR, "metrics.json"), "w") as f:
 import ai_edge_torch
 from ai_edge_torch.generative.quantize import quant_recipes
 
-model = smp.Unet(
-    encoder_name="timm-tf_efficientnet_lite0",
+model = smp.DeepLabV3Plus(
+    encoder_name=encoder,
     encoder_weights=None,
     in_channels=3,
     classes=1,
