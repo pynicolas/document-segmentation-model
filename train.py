@@ -200,6 +200,9 @@ print(f"Training {encoder}...")
 result = evaluate_encoder(encoder, model_save_path=MODEL_FILE_PATH, device=device)
 print(result)
 
+import json
+with open(os.path.join(MODEL_DIR, "metrics.json"), "w") as f:
+    json.dump(result, f, indent=2)
 
 # Convert to TFLite
 

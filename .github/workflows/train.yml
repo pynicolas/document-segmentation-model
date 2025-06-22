@@ -9,6 +9,10 @@ on:
     paths:
       - train.py
       - requirements.txt
+  pull_request:
+    paths:
+      - train.py
+      - requirements.txt
 
 permissions:
   contents: write
@@ -40,6 +44,17 @@ jobs:
 
       - name: Train and export model
         run: python train.py
+
+      - name: Upload model as artifact (PR only)
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: model-artifacts
+          path: |
+            build/model/document-segmentation-model.pt
+            build/model/document-segmentation-model.tflite
+            build/model/metrics.json
+            build/model/LICENSE.txt
 
       - name: Check if this is a release
         id: release_check
