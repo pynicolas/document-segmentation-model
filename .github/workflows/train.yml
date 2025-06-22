@@ -53,6 +53,7 @@ jobs:
           path: |
             build/model/document-segmentation-model.pt
             build/model/document-segmentation-model.tflite
+            build/model/metrics.json
 
       - name: Check if this is a release
         id: release_check
