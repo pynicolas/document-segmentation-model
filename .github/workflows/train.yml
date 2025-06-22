@@ -9,6 +9,10 @@ on:
     paths:
       - train.py
       - requirements.txt
+  pull_request:
+    paths:
+      - train.py
+      - requirements.txt
 
 permissions:
   contents: write
