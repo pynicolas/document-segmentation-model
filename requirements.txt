@@ -1,8 +1,8 @@
-torch>=2.0
+ai-edge-torch-nightly==0.6.0.dev20250620
+tf_nightly==2.20.0.dev20250619
 torchvision
 segmentation-models-pytorch
 albumentations
 opencv-python
 numpy
 scikit-learn
-ai-edge-torch-nightly==0.6.0.dev20250620
