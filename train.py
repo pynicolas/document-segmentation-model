@@ -129,7 +129,7 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     best_dice = -1
     best_state = None
-    nb_epochs = 30
+    nb_epochs = 3
 
     for epoch in range(nb_epochs):
 
