@@ -1,4 +1,5 @@
-ai-edge-torch-nightly==0.6.0.dev20250621
+ai-edge-torch-nightly==0.6.0.dev20250620
+tf_nightly==2.20.0.dev20250619
 torchvision
 segmentation-models-pytorch
 albumentations
