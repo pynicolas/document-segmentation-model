@@ -29,7 +29,7 @@ from sklearn.metrics import f1_score
 from urllib.request import urlretrieve
 import shutil
 
-DATASET_ZIP_URL = 'https://github.com/pynicolas/document-segmentation-dataset/releases/download/v1.1/document-segmentation-dataset-v1.1.zip'
+DATASET_ZIP_URL = 'https://github.com/pynicolas/document-segmentation-dataset/releases/download/v1.2/document-segmentation-dataset-v1.2.zip'
 
 BUILD_DIR = "build"
 MODEL_DIR = BUILD_DIR + "/model"
