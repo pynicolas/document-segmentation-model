@@ -29,7 +29,7 @@ from sklearn.metrics import f1_score
 from urllib.request import urlretrieve
 import shutil
 
-DATASET_ZIP_URL = 'https://github.com/pynicolas/document-segmentation-dataset/releases/download/v1.2/document-segmentation-dataset-v1.2.zip'
+DATASET_ZIP_URL = 'https://github.com/pynicolas/document-segmentation-dataset/releases/download/v1.3/document-segmentation-dataset-v1.3.zip'
 
 BUILD_DIR = "build"
 MODEL_DIR = BUILD_DIR + "/model"
@@ -129,7 +129,7 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-4)
     best_dice = -1
     best_state = None
-    nb_epochs = 30
+    nb_epochs = 25
 
     for epoch in range(nb_epochs):
 
