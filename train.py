@@ -134,6 +134,7 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
     for epoch in range(nb_epochs):
 
         model.train()
+        total_loss = 0
         for images, masks in train_loader:
             images, masks = images.to(device), masks.to(device)
             preds = model(images)
@@ -141,6 +142,8 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            total_loss += loss.item()
+        avg_train_loss = total_loss / len(train_loader)
 
         model.eval()
         all_preds, all_targets = [], []
@@ -155,7 +158,7 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
         pred_flat = np.concatenate(all_preds).astype(np.uint8).ravel()
         target_flat = np.concatenate(all_targets).astype(np.uint8).ravel()
         dice = f1_score(target_flat, pred_flat)
-        print(f"- Epoch {epoch + 1}/{nb_epochs}: train_loss={loss.item():.4f} dice={dice:.4f}")
+        print(f"- Epoch {epoch + 1}/{nb_epochs}: train_loss={avg_train_loss:.4f} dice={dice:.4f}")
 
         if dice > best_dice:
             best_dice = dice
