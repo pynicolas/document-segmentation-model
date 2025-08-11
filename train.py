@@ -25,7 +25,6 @@ import torchvision.transforms.functional as TF
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import segmentation_models_pytorch as smp
-from sklearn.metrics import f1_score
 from urllib.request import urlretrieve
 import shutil
 
@@ -112,6 +111,17 @@ val_loader = DataLoader(val_dataset, batch_size=4, shuffle=False)
 
 # Training
 
+def dice_score_continuous(pred, target, smooth=1e-6):
+    # pred and target: [B, 1, H, W] or [B, H, W]
+    pred_flat = pred.contiguous().view(-1)
+    target_flat = target.contiguous().view(-1)
+    intersection = (pred_flat * target_flat).sum()
+    return (2. * intersection + smooth) / (pred_flat.sum() + target_flat.sum() + smooth)
+
+def dice_score_discrete(pred, target, smooth=1e-6):
+    pred_bin = (pred > 0.5).float()
+    return dice_score_continuous(pred_bin, target, smooth)
+
 dice_loss = smp.losses.DiceLoss(mode='binary')
 bce_loss = nn.BCEWithLogitsLoss()
 
@@ -146,22 +156,31 @@ def evaluate_encoder(encoder_name, model_save_path, device=torch.device('cpu')):
         avg_train_loss = total_loss / len(train_loader)
 
         model.eval()
-        all_preds, all_targets = [], []
+        val_loss = 0.0
+        dice_cont_sum = 0.0
+        dice_disc_sum = 0.0
+
         with torch.no_grad():
             for images, masks in val_loader:
                 images, masks = images.to(device), masks.to(device)
-                preds = torch.sigmoid(model(images)) > 0.5
-                all_preds.append(preds.cpu().numpy())
-                all_targets.append(masks.cpu().numpy())
 
-        # Calculate Dice score
-        pred_flat = np.concatenate(all_preds).astype(np.uint8).ravel()
-        target_flat = np.concatenate(all_targets).astype(np.uint8).ravel()
-        dice = f1_score(target_flat, pred_flat)
-        print(f"- Epoch {epoch + 1}/{nb_epochs}: train_loss={avg_train_loss:.4f} dice={dice:.4f}")
+                outputs = model(images)
+                probs = torch.sigmoid(outputs)
 
-        if dice > best_dice:
-            best_dice = dice
+                loss = loss_fn(probs, masks)
+                val_loss += loss.item()
+
+                dice_cont_sum += dice_score_continuous(probs, masks).item()
+                dice_disc_sum += dice_score_discrete(probs, masks).item()
+
+        val_loss /= len(val_loader)
+        dice_cont_mean = dice_cont_sum / len(val_loader)
+        dice_disc_mean = dice_disc_sum / len(val_loader)
+
+        print(f"- Epoch {epoch + 1}/{nb_epochs}: train_loss={avg_train_loss:.4f} | Val Loss: {val_loss:.4f} | Dice (cont): {dice_cont_mean:.4f} | Dice (disc): {dice_disc_mean:.4f}")
+
+        if dice_disc_mean > best_dice:
+            best_dice = dice_disc_mean
             best_state = model.state_dict()
 
     # Save best model temporarily to measure size

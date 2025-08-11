@@ -5,4 +5,3 @@ segmentation-models-pytorch
 albumentations
 opencv-python
 numpy
-scikit-learn
