@@ -28,15 +28,15 @@ import segmentation_models_pytorch as smp
 from urllib.request import urlretrieve
 import shutil
 
-DATASET_ZIP_URL = 'https://github.com/pynicolas/document-segmentation-dataset/releases/download/v1.3.1/document-segmentation-dataset-v1.3.1.zip'
+DATASET_ZIP_URL = 'https://github.com/pynicolas/fairscan-segmentation-dataset/releases/download/v1.4/fairscan-segmentation-dataset-v1.4.zip'
 
 BUILD_DIR = "build"
 MODEL_DIR = BUILD_DIR + "/model"
-MODEL_FILE_PATH = MODEL_DIR + "/document-segmentation-model.pt"
-TFLITE_MODEL_FILE_PATH = MODEL_DIR + "/document-segmentation-model.tflite"
+MODEL_FILE_PATH = MODEL_DIR + "/fairscan-segmentation-model.pt"
+TFLITE_MODEL_FILE_PATH = MODEL_DIR + "/fairscan-segmentation-model.tflite"
 DATASET_ZIP_PATH = BUILD_DIR + "/dataset.zip"
 DATASET_PARENT_DIR = BUILD_DIR + "/dataset"
-DATASET_DIR = DATASET_PARENT_DIR + "/document-segmentation-dataset"
+DATASET_DIR = DATASET_PARENT_DIR + "/fairscan-segmentation-dataset"
 
 if os.path.isdir(BUILD_DIR):
     shutil.rmtree(BUILD_DIR)

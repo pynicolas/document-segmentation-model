@@ -1,7 +1,7 @@
-# Document Segmentation Model
+# FairScan Segmentation Model
 
-This repository contains a lightweight, custom-trained model for document segmentation, designed for mobile applications.
-It is optimized for conversion to TFLite and intended for integration into ethical, privacy-respecting document scanning apps.
+This repository contains a lightweight, custom-trained model for document segmentation.
+Its purpose is to provide [FairScan](https://github.com/pynicolas/FairScan) with automatic document detection.
 
 ## Overview
 
@@ -21,14 +21,14 @@ It is optimized for conversion to TFLite and intended for integration into ethic
 ## Dataset
 
 The dataset can be found in a separate repository:
-[document-segmentation-dataset](https://github.com/pynicolas/document-segmentation-dataset/).
+[fairscan-segmentation-dataset](https://github.com/pynicolas/fairscan-segmentation-dataset/).
 It's automatically downloaded in the training script.
 
 ## Training
 ```
 # 1. Clone the repository
-git clone https://github.com/pynicolas/document-segmentation-model
-cd document-segmentation-model
+git clone https://github.com/pynicolas/fairscan-segmentation-model
+cd fairscan-segmentation-model
 
 # 2. Create a venv
 python3 -m venv venv
@@ -49,14 +49,6 @@ See [requirements.txt](requirements.txt) for details.
 
 This repository is released under the GNU GPLv3 license.
 See [LICENSE](LICENSE) for details.
-
-## Goals & Philosophy
-
-This project is part of a broader effort to provide ethical alternatives in mobile software:
-
- - 100% on-device inference (no data sent to external servers)
- - Fully open source model and training pipeline
- - No user tracking, no advertising
 
 ## Acknowledgements
 
