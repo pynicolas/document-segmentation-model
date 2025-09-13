@@ -43,8 +43,8 @@ jobs:
         with:
           name: model-artifacts
           path: |
-            build/model/document-segmentation-model.pt
-            build/model/document-segmentation-model.tflite
+            build/model/fairscan-segmentation-model.pt
+            build/model/fairscan-segmentation-model.tflite
             build/model/metrics.json
             build/model/LICENSE.txt
 
@@ -58,6 +58,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            build/model/document-segmentation-model.pt
-            build/model/document-segmentation-model.tflite
+            build/model/fairscan-segmentation-model.pt
+            build/model/fairscan-segmentation-model.tflite
             build/model/LICENSE.txt
